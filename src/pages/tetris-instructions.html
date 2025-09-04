@@ -1,0 +1,56 @@
+<!-- // src/pages/tetris-instructions.html -->
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>הוראות משחק טטריס</title>
+  <link rel="icon" type="image/x-icon" href="../image/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style/tetris-instructions.css">
+  <link rel="stylesheet" href="../style.css">
+  
+</head>
+
+<body>
+  <!-- קאנבס לאנימציה -->
+  <canvas id="tetris-bg"></canvas>
+
+  <div class="container">
+    <h1>הוראות משחק טטריס</h1>
+
+    <h2>מה המטרה?</h2>
+    <p>לסדר את הבלוקים הנופלים כך שימלאו שורות מלאות בלי רווחים.</p>
+    
+    <p>כל שורה מלאה נעלמת ומוסיפה נקודות – ככל שתנקה יותר שורות, כך תתקדם גבוה יותר!</p>
+
+    <h2>איך משחקים?</h2>
+    <ul>
+      <li>הזזת הבלוק עם החצים שמאלה וימינה.</li>
+      <li>לחיצה על החץ למעלה מסובבת את הבלוק.</li>
+      <li>הבלוקים נופלים מהר יותר עם הזמן – צריך להיות מהיר וחד!</li>
+    </ul>
+
+    <h2>מה קורה כשמגיעים לראש המסך?</h2>
+    <p>המשחק נגמר. נסה שוב ושבור את השיא שלך!</p>
+
+    <h2>מי מנצח?</h2>
+    <p>המנצח הוא זה שצובר את מירב הנקודות לפני סיום המשחק.</p>
+
+    <h2>טיפים למשחק טוב יותר</h2>
+    <div class="tip">
+      <ul>
+        <li>תכנן איפה למקם את הבלוקים כדי להימנע מרווחים.</li>
+        <li>השאר מקום פנוי כדי שיהיה קל לסובב בלוקים.</li>
+        <li>הישאר מרוכז ככל שהמהירות עולה כדי לצבור ניקוד גבוה!</li>
+      </ul>
+    </div>
+    <a href="about.html" class="back-button">דף אודות טטריס</a>
+    <a href="login.html" class="back-button">חזרה לדף הכניסה</a>
+  </div>
+
+  <script src="../scripts/tetris-instructions.js"></script>
+</body>
+
+</html>
