@@ -8,8 +8,6 @@
   <link rel="icon" type="image/x-icon" href="../image/favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style/tetris.css">
-      <script src="/src/scripts/tetris.js" defer></script>
-
 </head>
 
 <body>
@@ -17,13 +15,11 @@
     <h1>בלוקים קסומים 🎮</h1>
   </header>
 
-  <!-- משחק -->
   <main id="game-area">
     <div id="game">
       <canvas id="tetris" width="240" height="400"></canvas>
     </div>
 
-    <!-- לוח ניקוד -->
     <section id="hud">
       <div id="scoreboard">
         ניקוד: <span id="score">0</span> | שיא: <span id="highscore">0</span>
@@ -32,7 +28,6 @@
       <div id="levelLabel">רמה: בינוני</div>
     </section>
 
-    <!-- כפתורים -->
     <section id="controls">
       <button id="startBtn">▶ התחל משחק חדש</button>
       <button id="highBtn" onclick="window.location.href='leaderboard.html'">🏆 צפה בשיאים</button>
@@ -40,15 +35,99 @@
     </section>
   </main>
 
-  <!-- פופאפ סוף משחק -->
   <div class="popup" id="endPopup">
     <h2 id="popupMessage"></h2>
     <button onclick="document.getElementById('endPopup').style.display='none'">סגור</button>
   </div>
 
-  <!-- אפקט פיצוצים -->
   <div id="confetti-container"></div>
 
-  <!-- <script src="../scripts/tetris.js"></script> -->
+  <script>
+  (() => {
+    const canvas = document.getElementById('tetris');
+    const ctx = canvas.getContext('2d');
+    const scoreElem = document.getElementById('score');
+    const highscoreElem = document.getElementById('highscore');
+    const stepsElem = document.getElementById('steps');
+    const startBtn = document.getElementById('startBtn');
+
+    const BLOCK_SIZE = 20, COLS = 12, ROWS = 20;
+    const COLORS = [null, '#FF5E5B', '#FFD93D', '#6EFACC', '#FF9CEE', '#FFB347', '#A29BFE', '#7BED9F', '#FF6B81', '#F8EFBA'];
+    const SHAPES = [
+      [],
+      [[1,1,1],[0,1,0]],
+      [[0,2,2],[2,2,0]],
+      [[3,3,0],[0,3,3]],
+      [[4,0,0],[4,4,4]],
+      [[0,0,5],[5,5,5]],
+      [[6,6,6,6]],
+      [[7,7],[7,7]],
+      [[0,8,0],[0,8,0]],
+      [[9,0,0,0]]
+    ];
+
+    class Piece {
+      constructor(typeId) {
+        this.typeId = typeId;
+        this.shape = SHAPES[typeId];
+        this.pos = { x: Math.floor(COLS/2)-Math.floor(this.shape[0].length/2), y:0 };
+      }
+      rotate() {
+        this.shape = this.shape[0].map((val,index) =>
+          this.shape.map(row => row[index]).reverse()
+        );
+      }
+    }
+
+    const arena = Array.from({ length: ROWS }, () => new Array(COLS).fill(0));
+    let currentPiece = null;
+    let score = 0, steps = 0;
+
+    function drawBlock(x,y,colorId){
+      ctx.fillStyle = COLORS[colorId];
+      ctx.fillRect(x*BLOCK_SIZE,y*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);
+      ctx.strokeStyle = '#222';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(x*BLOCK_SIZE,y*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);
+    }
+
+    function draw(){
+      ctx.fillStyle='#222';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      arena.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)drawBlock(x,y,val);}));
+      if(currentPiece) {
+        currentPiece.shape.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)drawBlock(currentPiece.pos.x+x,currentPiece.pos.y+y,val);}));
+      }
+    }
+
+    function collide(arena,piece){
+      const m=piece.shape, o=piece.pos;
+      for(let y=0;y<m.length;y++){
+        for(let x=0;x<m[y].length;x++){
+          if(m[y][x]!==0 && (arena[y+o.y] && arena[y+o.y][x+o.x])!==0) return true;
+        }
+      }
+      return false;
+    }
+
+    function merge(arena,piece){
+      piece.shape.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)arena[y+piece.pos.y][x+piece.pos.x]=val;}));
+    }
+
+    function createPiece(){ 
+      return new Piece(Math.floor(Math.random()*(SHAPES.length-1))+1); 
+    }
+
+    // התחלה חלקית של המשחק
+    startBtn.addEventListener('click', () => {
+      for(let y=0;y<arena.length;y++) arena[y].fill(0);
+      currentPiece = createPiece();
+      score = 0; steps = 0;
+      scoreElem.textContent = score;
+      stepsElem.textContent = steps;
+      draw();
+    });
+  })();
+  </script>
 </body>
 </html>
