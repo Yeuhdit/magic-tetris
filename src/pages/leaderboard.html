@@ -1,11 +1,32 @@
+<!-- //src/pages/leaderboard.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>טבלת שיאים - Magic Blocks</title>
+  <link rel="shortcut icon" href="/src/image/favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/x-icon" href="../image/favicon.ico">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="../style/leaderboard.css">
+  <link rel="stylesheet" href="../style.css">
+      <script src="/src/scripts/leaderboard.js" defer></script>
 </head>
-<body>
+
+<body dir="rtl">
+  <h1>טבלת השיאים שלי - Magic Blocks</h1>
   
+  <div class="score-info" id="scoreData">
+    <p>טוען נתונים...</p>
+  </div>
+
+  <canvas id="scoreChart"></canvas>
+
+  <button id="clearBtn">נקה שיאים</button>
+  <a href="tetris.html" class="back-button">🎮 חזרה למשחק</a>
+
+  <!-- <script src="../scripts/leaderboard.js"></script> -->
 </body>
+
 </html>
