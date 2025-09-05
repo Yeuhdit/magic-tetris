@@ -32,4 +32,29 @@ document.getElementById('instructions-btn').addEventListener('click', () => {
   window.location.href = 'tetris-instructions.html';
 });
 
+// Endless confetti
+const confettiContainer = document.getElementById('confetti-container');
 
+function createConfetti() {
+  const colors = ['#ff5da2', '#ffd3e0', '#ffe0f7', '#ff9a9e', '#fbc2eb'];
+  const span = document.createElement('span');
+  const size = Math.random() * 10 + 6;
+  const left = Math.random() * 100;
+  const delay = Math.random() * 5;
+  const duration = Math.random() * 5 + 5;
+
+  span.style.left = `${left}%`;
+  span.style.width = `${size}px`;
+  span.style.height = `${size}px`;
+  span.style.background = colors[Math.floor(Math.random() * colors.length)];
+  span.style.animationDelay = `${delay}s`;
+  span.style.animationDuration = `${duration}s`;
+
+  confettiContainer.appendChild(span);
+
+  setTimeout(() => {
+    confettiContainer.removeChild(span);
+  }, (duration + delay) * 1000);
+}
+
+setInterval(createConfetti, 150);
