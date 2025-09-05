@@ -1,0 +1,111 @@
+/* // src/style/about.css */
+body {
+  margin: 0;
+  background-size: 300% 300%;
+  animation: bgFlow 12s ease infinite;
+  color: #4b004f;
+  min-height: 100vh;
+  overflow-y: auto; /* מאפשר גלילה */
+  padding: 2rem 0; /* נותן מרווח למעלה ולמטה */
+  background: linear-gradient(135deg, #ffe3f1, #ffd1e8, #ffc1e0);
+  font-family: 'Varela Round', sans-serif;
+}
+
+.container {
+  position: relative;
+  background: rgba(255,255,255,0.25);
+  padding: 2rem 3rem;
+  border-radius: 30px;
+  box-shadow: 0 12px 50px rgba(255,120,150,0.5);
+  max-width: 700px;
+  width: 70%;
+  overflow: visible; /* מאפשר תוכן להתרחב ולגלול */
+  border: 2px solid rgba(255,105,180,0.3);
+  margin: 0 auto; /* מרכז את הקונטיינר */
+  text-align: center;
+}
+
+
+@keyframes bgFlow {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
+}
+
+
+
+h1 {
+  font-size: 2.5rem;
+  color: #ff5da2;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 15px #ff5da2, 0 0 30px #ff85b3;
+}
+
+p {
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  line-height: 1.6;
+}
+
+.back-button {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 12px 30px;
+  font-size: 1.2rem;
+  border-radius: 35px;
+  background: linear-gradient(270deg, #ff85b3, #ff5da2, #ff69b4);
+  background-size: 200% 200%;
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 0 15px #ff85b3aa;
+  transition: transform 0.3s;
+}
+
+.back-button:hover {
+  transform: scale(1.15) rotate(2deg);
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* רספונסיביות */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem 2rem;
+    width: 85%;
+    border-radius: 20px;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+  p {
+    font-size: 1rem;
+  }
+  .back-button {
+    font-size: 1rem;
+    padding: 10px 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem 1.5rem;
+    width: 95%;
+  }
+  h1 {
+    font-size: 1.6rem;
+  }
+  p {
+    font-size: 0.95rem;
+  }
+  .back-button {
+    width: 100%;
+    font-size: 0.95rem;
+    padding: 10px 0;
+  }
+}
