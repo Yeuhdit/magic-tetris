@@ -1,89 +1,135 @@
-<!-- src/pages/tetris.html -->
+<!-- קובץ HTML של משחק טטריס -->
+
 <!DOCTYPE html>
+<!-- מציין שמדובר ב-HTML5 -->
 <html lang="he">
+<!-- הגדרת שפת הדף לעברית -->
+
 <head>
   <meta charset="UTF-8">
+  <!-- הגדרת קידוד התווים לדף -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- התאמה למכשירים ניידים -->
   <title>בלוקים קסומים</title>
+  <!-- כותרת הדף -->
   <link rel="icon" type="image/x-icon" href="../image/favicon.ico">
+  <!-- איקון לדפדפן -->
   <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+  <!-- טעינת פונטים מגוגל -->
   <link rel="stylesheet" href="../style/tetris.css">
+  <!-- טעינת קובץ CSS חיצוני -->
 </head>
 
 <body>
   <header>
+    <!-- אזור כותרת ראשי -->
     <h1>בלוקים קסומים 🎮</h1>
+    <!-- כותרת הדף -->
   </header>
 
   <main id="game-area">
+    <!-- אזור המשחק הראשי -->
     <div id="game">
       <canvas id="tetris" width="240" height="400"></canvas>
+      <!-- קנבס שבו מצויר המשחק -->
     </div>
 
     <section id="hud">
+      <!-- אזור תצוגת מידע (HUD) -->
       <div id="scoreboard">
         ניקוד: <span id="score">0</span> | שיא: <span id="highscore">0</span>
+        <!-- תצוגת ניקוד ושיא -->
       </div>
       <div id="details">צעדים: <span id="steps">0</span></div>
+      <!-- תצוגת צעדים -->
       <div id="levelLabel">רמה: בינוני</div>
+      <!-- תצוגת רמה -->
     </section>
 
     <section id="controls">
+      <!-- אזור כפתורים לשליטה -->
       <button id="startBtn">▶ התחל משחק חדש</button>
+      <!-- כפתור התחלת משחק -->
       <button id="highBtn" onclick="window.location.href='leaderboard.html'">🏆 צפה בשיאים</button>
+      <!-- כפתור מעבר לדף השיאים -->
       <button id="backBtn">⏮ חזרה לדף הכניסה</button>
+      <!-- כפתור חזרה לדף כניסה -->
     </section>
   </main>
 
   <div class="popup" id="endPopup">
+    <!-- חלון פופאפ לסיום משחק -->
     <h2 id="popupMessage"></h2>
+    <!-- הודעת הפופאפ -->
     <button onclick="document.getElementById('endPopup').style.display='none'">סגור</button>
+    <!-- כפתור סגירה -->
   </div>
 
   <div id="confetti-container"></div>
+  <!-- מיכל לאפקט קונפטי -->
 
   <script>
   (() => {
+    // פונקציה מידית להקיף את כל הקוד כדי לא לזהם משתנים גלובליים
+
     const canvas = document.getElementById('tetris');
+    // קישור ל-canvas
     const ctx = canvas.getContext('2d');
+    // קבלת קונטקסט לציור דו-ממדי
     const scoreElem = document.getElementById('score');
+    // קישור לאלמנט הצגת הניקוד
     const highscoreElem = document.getElementById('highscore');
+    // קישור לאלמנט הצגת השיא
     const stepsElem = document.getElementById('steps');
+    // קישור לאלמנט הצגת צעדים
     const startBtn = document.getElementById('startBtn');
+    // קישור לכפתור התחלה
 
     const BLOCK_SIZE = 20, COLS = 12, ROWS = 20;
+    // הגדרת גודל בלוק, מספר עמודות ושורות
     const COLORS = [null, '#FF5E5B', '#FFD93D', '#6EFACC', '#FF9CEE', '#FFB347', '#A29BFE', '#7BED9F', '#FF6B81', '#F8EFBA'];
+    // מערך צבעים לכל סוג בלוק
     const SHAPES = [
-      [],
-      [[1,1,1],[0,1,0]],
-      [[0,2,2],[2,2,0]],
-      [[3,3,0],[0,3,3]],
-      [[4,0,0],[4,4,4]],
-      [[0,0,5],[5,5,5]],
-      [[6,6,6,6]],
-      [[7,7],[7,7]],
-      [[0,8,0],[0,8,0]],
-      [[9,0,0,0]]
+      [], // אין צורה
+      [[1,1,1],[0,1,0]], // T
+      [[0,2,2],[2,2,0]], // Z
+      [[3,3,0],[0,3,3]], // S
+      [[4,0,0],[4,4,4]], // L
+      [[0,0,5],[5,5,5]], // J
+      [[6,6,6,6]],       // I
+      [[7,7],[7,7]],     // O
+      [[0,8,0],[0,8,0]], // I אנכי קטן
+      [[9,0,0,0]]        // I אופקי קטן
     ];
 
     class Piece {
+      // מחלקה לבלוק
       constructor(typeId) {
         this.typeId = typeId;
+        // סוג הבלוק
         this.shape = SHAPES[typeId];
+        // צורת הבלוק
         this.pos = { x: Math.floor(COLS/2)-Math.floor(this.shape[0].length/2), y:0 };
+        // מיקום התחלתי במרכז העליון
       }
       rotate() {
+        // פונקציה לסיבוב הבלוק
         this.shape = this.shape[0].map((val,index) =>
           this.shape.map(row => row[index]).reverse()
         );
+        // סיבוב מטריצה
       }
     }
 
     const arena = Array.from({ length: ROWS }, () => new Array(COLS).fill(0));
+    // יצירת לוח ריק (שורות ועמודות)
     let currentPiece = null;
+    // משתנה לבלוק הנוכחי
     let score = 0, steps = 0;
+    // משתני ניקוד וצעד
 
     function drawBlock(x,y,colorId){
+      // פונקציה לציור בלוק יחיד
       ctx.fillStyle = COLORS[colorId];
       ctx.fillRect(x*BLOCK_SIZE,y*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);
       ctx.strokeStyle = '#222';
@@ -92,6 +138,7 @@
     }
 
     function draw(){
+      // ציור כל הלוח והבלוק הנוכחי
       ctx.fillStyle='#222';
       ctx.fillRect(0,0,canvas.width,canvas.height);
       arena.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)drawBlock(x,y,val);}));
@@ -101,6 +148,7 @@
     }
 
     function collide(arena,piece){
+      // בדיקה אם הבלוק נתקל במשהו
       const m=piece.shape, o=piece.pos;
       for(let y=0;y<m.length;y++){
         for(let x=0;x<m[y].length;x++){
@@ -111,21 +159,28 @@
     }
 
     function merge(arena,piece){
+      // הוספת הבלוק ללוח
       piece.shape.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)arena[y+piece.pos.y][x+piece.pos.x]=val;}));
     }
 
     function createPiece(){ 
+      // יצירת בלוק חדש אקראי
       return new Piece(Math.floor(Math.random()*(SHAPES.length-1))+1); 
     }
 
     // התחלה חלקית של המשחק
     startBtn.addEventListener('click', () => {
       for(let y=0;y<arena.length;y++) arena[y].fill(0);
+      // איפוס הלוח
       currentPiece = createPiece();
+      // יצירת בלוק חדש
       score = 0; steps = 0;
+      // איפוס ניקוד וצעד
       scoreElem.textContent = score;
       stepsElem.textContent = steps;
+      // עדכון התצוגה
       draw();
+      // ציור ראשוני
     });
   })();
   </script>
