@@ -1,13 +1,42 @@
-<!doctype html>
+<!-- //index.html -->
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Magic Blocks</title>
+  <link rel="shortcut icon" href="/src/image/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="src/style/login.css" />
+  <link rel="stylesheet" href="src/style.css">
+</head>
+
+<body>
+  <div id="login-container">Loading...</div>
+  <script>
+    fetch('src/pages/login.html')
+      .then(response => response.text())
+      .then(html => {
+        const container = document.getElementById('login-container');
+        container.innerHTML = html;
+        
+
+        // Now load the scripts from login.html
+        const scripts = container.querySelectorAll('script');
+        scripts.forEach(oldScript => {
+          const newScript = document.createElement('script');
+          [...oldScript.attributes].forEach(attr => {
+            newScript.setAttribute(attr.name, attr.value);
+          });
+          newScript.textContent = oldScript.textContent;
+          oldScript.replaceWith(newScript);
+        });
+      })
+      .catch(err => {
+        document.getElementById('login-container').innerText = "Error loading login page";
+        console.error(err);
+      });
+  </script>
+</body>
+
 </html>
