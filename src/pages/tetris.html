@@ -125,7 +125,7 @@
 
   function sweep(){
     let rowCount=0;
-    outer: for(let y=arena.length-1;y>=0;y--){
+    for(let y=arena.length-1;y>=0;y--){
       if(arena[y].every(val=>val!==0)){
         arena.splice(y,1);
         arena.unshift(new Array(COLS).fill(0));
@@ -162,13 +162,16 @@
       merge(arena,currentPiece);
       sweep();
       currentPiece=createPiece();
-      if(collide(arena,currentPiece)){
-        gameOver=true;
-        showPopup('Game Over! Score: '+score);
+
+      // סוף משחק רק כשהשורה העליונה תפוסה (נגיעה בתקרה)
+      if (arena[0].some(cell => cell !== 0)) {
+        gameOver = true;
+        showPopup('Game Over! Score: ' + score);
+
         if(score>highscore){
           localStorage.setItem('tetrisHighscore',JSON.stringify(score));
-          highscore=score;
-          highscoreElem.textContent=highscore;
+          highscore = score;
+          highscoreElem.textContent = highscore;
           showPopup('New High Score! Score: '+score);
         }
         saveGameData(score,steps,level);
