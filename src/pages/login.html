@@ -10,7 +10,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style/login.css">
   <link rel="stylesheet" href="../style.css" />
+  
   <script src="/src/scripts/login.js" defer></script>
+
 </head>
 
 <body>
@@ -21,11 +23,13 @@
     <form id="login-form">
       <label for="username">מה השם שלך?</label>
       <input type="text" id="username" name="username" placeholder="הכנס את שמך..." required />
+
       <label for="level">איזה רמה בחרת?</label>
       <select id="level" name="level">
         <option value="medium">בינוני</option>
         <option value="hard">קשה</option>
       </select>
+
       <div id="error-msg" class="error-box"></div>
 
       <button id="instructions-btn" type="button">🎮 הוראות משחק</button>
