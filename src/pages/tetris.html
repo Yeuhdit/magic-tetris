@@ -8,7 +8,8 @@
   <link rel="icon" type="image/x-icon" href="../image/favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style/tetris.css">
-  <script src="/src/scripts/tetris.js" defer></script>
+      <script src="/src/scripts/tetris.js" defer></script>
+
 </head>
 
 <body>
@@ -16,11 +17,13 @@
     <h1>בלוקים קסומים 🎮</h1>
   </header>
 
+  <!-- משחק -->
   <main id="game-area">
     <div id="game">
       <canvas id="tetris" width="240" height="400"></canvas>
     </div>
 
+    <!-- לוח ניקוד -->
     <section id="hud">
       <div id="scoreboard">
         ניקוד: <span id="score">0</span> | שיא: <span id="highscore">0</span>
@@ -29,6 +32,7 @@
       <div id="levelLabel">רמה: בינוני</div>
     </section>
 
+    <!-- כפתורים -->
     <section id="controls">
       <button id="startBtn">▶ התחל משחק חדש</button>
       <button id="highBtn" onclick="window.location.href='leaderboard.html'">🏆 צפה בשיאים</button>
@@ -36,12 +40,16 @@
     </section>
   </main>
 
+  <!-- פופאפ סוף משחק -->
   <div class="popup" id="endPopup">
     <h2 id="popupMessage"></h2>
     <button onclick="document.getElementById('endPopup').style.display='none'">סגור</button>
   </div>
 
+  <!-- אפקט פיצוצים -->
+  <div id="confetti-container"></div>
 <script>
+  //src/scripts/tetris.js
 (() => {
   const canvas = document.getElementById('tetris');
   const ctx = canvas.getContext('2d');
@@ -51,6 +59,7 @@
   const startBtn = document.getElementById('startBtn');
   const popup = document.getElementById('endPopup');
   const popupMessage = document.getElementById('popupMessage');
+  const confettiContainer = document.getElementById('confetti-container'); // 🎆
 
   const BLOCK_SIZE = 20, COLS = 12, ROWS = 20;
   const COLORS = [null, '#FF5E5B', '#FFD93D', '#6EFACC', '#FF9CEE', '#FFB347', '#A29BFE', '#7BED9F', '#FF6B81', '#F8EFBA'];
@@ -103,9 +112,9 @@
   function draw(){
     ctx.fillStyle='#222';
     ctx.fillRect(0,0,canvas.width,canvas.height);
-    arena.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)drawBlock(x,y,val);}));  
+    arena.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)drawBlock(x,y,val);}));
     if(currentPiece) {
-      currentPiece.shape.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)drawBlock(currentPiece.pos.x+x,currentPiece.pos.y+y,val);}));  
+      currentPiece.shape.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)drawBlock(currentPiece.pos.x+x,currentPiece.pos.y+y,val);}));
     }
   }
 
@@ -123,13 +132,47 @@
     piece.shape.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)arena[y+piece.pos.y][x+piece.pos.x]=val;}));
   }
 
+  // 🎆 פונקציה ליצירת פיצוצים
+  function triggerExplosion(rowY) {
+    for (let i = 0; i < 25; i++) {
+      const particle = document.createElement("span");
+      particle.classList.add("particle");
+
+      const size = Math.random() * 8 + 4;
+      const angle = Math.random() * 2 * Math.PI;
+      const distance = Math.random() * 80 + 40;
+      const color = COLORS[Math.floor(Math.random() * (COLORS.length-1)) + 1];
+
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.background = color;
+      particle.style.left = `${canvas.offsetLeft + canvas.width/2}px`;
+      particle.style.top = `${canvas.offsetTop + rowY*BLOCK_SIZE}px`;
+      particle.style.position = "absolute";
+      particle.style.borderRadius = "50%";
+
+      confettiContainer.appendChild(particle);
+
+      particle.animate([
+        { transform: "translate(0,0)", opacity: 1 },
+        { transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`, opacity: 0 }
+      ], {
+        duration: 1000 + Math.random() * 500,
+        easing: "ease-out"
+      });
+
+      setTimeout(() => particle.remove(), 1500);
+    }
+  }
+
   function sweep(){
     let rowCount=0;
-    for(let y=arena.length-1;y>=0;y--){
+    outer: for(let y=arena.length-1;y>=0;y--){
       if(arena[y].every(val=>val!==0)){
         arena.splice(y,1);
         arena.unshift(new Array(COLS).fill(0));
         rowCount++;
+        triggerExplosion(y); // 🎆 אפקט בכל שורה שנמחקת
         y++;
       }
     }
@@ -162,16 +205,13 @@
       merge(arena,currentPiece);
       sweep();
       currentPiece=createPiece();
-
-      // סוף משחק רק כשהשורה העליונה תפוסה (נגיעה בתקרה)
-      if (arena[0].some(cell => cell !== 0)) {
-        gameOver = true;
-        showPopup('Game Over! Score: ' + score);
-
+      if(collide(arena,currentPiece)){
+        gameOver=true;
+        showPopup('Game Over! Score: '+score);
         if(score>highscore){
           localStorage.setItem('tetrisHighscore',JSON.stringify(score));
-          highscore = score;
-          highscoreElem.textContent = highscore;
+          highscore=score;
+          highscoreElem.textContent=highscore;
           showPopup('New High Score! Score: '+score);
         }
         saveGameData(score,steps,level);
@@ -217,6 +257,9 @@
   });
 
 })();
+
 </script>
+  <!-- <script src="../scripts/tetris.js"></script> -->
+
 </body>
 </html>
