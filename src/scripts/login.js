@@ -24,12 +24,12 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
 
   const userData = { username, level };
   localStorage.setItem('gameUser', JSON.stringify(userData));
-  window.location.href = 'tetris.html';
+  window.location.href = 'src/pages/tetris.html';
 });
 
 // Game instructions button
 document.getElementById('instructions-btn').addEventListener('click', () => {
-  window.location.href = 'tetris-instructions.html';
+  window.location.href = 'src/pages/tetris-instructions.html';
 });
 
 // Endless confetti
