@@ -29,7 +29,7 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
 
 // Game instructions button
 document.getElementById('instructions-btn').addEventListener('click', () => {
-  window.location.href = 'src/pages/tetris-instructions.html';
+  window.location.href = 'tetris-instructions.html';
 });
 
 // Endless confetti
