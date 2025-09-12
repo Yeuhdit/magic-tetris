@@ -1,4 +1,4 @@
-const canvas = document.getElementById("bg-canvas");
+  const canvas = document.getElementById("bg-canvas");
     const ctx = canvas.getContext("2d");
 
     function resizeCanvas() {

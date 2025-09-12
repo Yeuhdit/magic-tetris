@@ -28,7 +28,7 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
 });
 
 // Game instructions button
-document.getElementById('instructions-btn').addEventListener('click', () => {
+document.getElementById('instructions-a').addEventListener('click', () => {
   window.location.href = 'tetris-instructions.html';
 });
 
