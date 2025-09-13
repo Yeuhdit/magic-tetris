@@ -1,4 +1,4 @@
-/* //src/style/tetris.css */
+/* src/style/tetris.css */
 body {
   font-family: 'Varela Round', sans-serif;
   text-align: center;
@@ -34,10 +34,9 @@ canvas {
   color: #fff;
 }
 
-/* כפתורים */
 #controls {
-  position: relative;   /* כדי לאפשר שליטה על שכבתיות */
-  z-index: 50;          /* שיהיה מעל חלקיקים */
+  position: relative;
+  z-index: 50;
 }
 
 button {
@@ -59,7 +58,6 @@ button:hover {
   background: linear-gradient(to right, #ffb6d9, #ff69b4);
 }
 
-/* פופאפ */
 .popup {
   position: fixed;
   top: 50%;
@@ -101,10 +99,9 @@ button:hover {
   .popup { padding: 15px; }
 }
 
-/* חלקיקים */
 .particle {
   position: absolute;
   pointer-events: none;
-  border-radius: 80%;
+  border-radius: 50%;
   z-index: 10;
 }
