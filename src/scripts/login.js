@@ -24,7 +24,7 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
 
   const userData = { username, level };
   localStorage.setItem('gameUser', JSON.stringify(userData));
-  window.location.href = 'src/pages/tetris.html';
+  window.location.href = 'tetris.html';
 });
 
 // Game instructions button

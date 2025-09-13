@@ -48,7 +48,7 @@ p {
   line-height: 1.6;
 }
 
-.back-button {
+.back-a {
   display: inline-block;
   margin-top: 2rem;
   padding: 12px 30px;
@@ -62,7 +62,7 @@ p {
   transition: transform 0.3s;
 }
 
-.back-button:hover {
+.back-a:hover {
   transform: scale(1.15) rotate(2deg);
 }
 
@@ -87,7 +87,7 @@ canvas {
   p {
     font-size: 1rem;
   }
-  .back-button {
+  .back-a {
     font-size: 1rem;
     padding: 10px 25px;
   }
@@ -104,7 +104,7 @@ canvas {
   p {
     font-size: 0.95rem;
   }
-  .back-button {
+  .back-a {
     width: 100%;
     font-size: 0.95rem;
     padding: 10px 0;
@@ -124,7 +124,7 @@ canvas {
   p {
     font-size: 1rem;
   }
-  .back-button {
+  .back-a {
     font-size: 1rem;
     padding: 10px 25px;
   }
@@ -141,7 +141,7 @@ canvas {
   p {
     font-size: 0.95rem;
   }
-  .back-button {
+  .back-a {
     width: 100%;
     font-size: 0.95rem;
     padding: 10px 0;

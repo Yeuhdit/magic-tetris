@@ -60,7 +60,7 @@ function loadScores() {
       });
     }
 
-    document.getElementById('clearBtn').addEventListener('click', () => {
+    document.getElementById('clearA').addEventListener('click', () => {
       localStorage.removeItem('tetrisGameData');
       localStorage.removeItem('tetrisHighscore');
       localStorage.removeItem('tetrisStepsHigh');

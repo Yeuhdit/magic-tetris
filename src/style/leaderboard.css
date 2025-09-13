@@ -1,36 +1,18 @@
-/* //src/style/leaderboard.css */
+/* // src/style/leaderboard.css */
+
+/* רקע גוף */
 body {
   background: linear-gradient(135deg, #ffc0cb, #ffb6c1, #fff0f5);
   text-align: center;
   color: #6d004c;
   padding: 20px;
   margin: 0;
-  font-family: Arial, sans-serif;
-  overflow-y: auto; /* מאפשר גלילה */
+  font-family: 'Varela Round', Arial, sans-serif;
+  overflow-y: auto;
   min-height: 100vh;
 }
 
-/* כפתור חזרה ללוגין */
-.back-button {
-  display: inline-block;
-  margin-bottom: 20px;
-  padding: 10px 22px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  background: linear-gradient(to right, #ff8acb, #ff4fa8);
-  color: white;
-  text-decoration: none;
-  border-radius: 50px;
-  box-shadow: 0 4px 15px #ffa3cb99;
-  transition: all 0.3s ease-in-out;
-}
-
-.back-button:hover {
-  background: linear-gradient(to right, #ffb6d9, #ff69b4);
-  transform: scale(1.05);
-}
-
-/* כותרת */
+/* כותרת ראשית */
 h1 {
   color: #ff3e84;
   text-shadow: 0 0 10px #ffd6e9, 0 0 20px #ffb6c1;
@@ -64,25 +46,41 @@ canvas {
   box-sizing: border-box;
 }
 
-/* כפתור */
-button {
-  background: linear-gradient(to right, #ff8acb, #ff4fa8);
-  border: none;
-  color: white;
-  padding: 12px 26px;
-  font-weight: bold;
-  font-size: 1.1rem;
-  cursor: pointer;
+/* כפתורים - מודרני וניאון */
+button,
+.back-button,
+#clearA {
+  display: inline-block;
+  margin: 0.6rem;
+  padding: 14px 40px;
+  font-size: 1.2rem;
+  font-weight: 600;
   border-radius: 50px;
-  box-shadow: 0 4px 15px #ffa3cb99;
-  transition: all 0.3s ease-in-out;
-  margin-top: 20px;
+  background: linear-gradient(135deg, #ff85b3, #ff4fa8, #ff69b4);
+  background-size: 200% 200%;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  box-shadow: 0 6px 20px rgba(255, 105, 180, 0.35);
+  transition: all 0.35s ease;
+  cursor: pointer;
 }
 
-button:hover {
-  background: linear-gradient(to right, #ffb6d9, #ff69b4);
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px #ff6fabaa;
+/* אפקט בהובר */
+button:hover,
+.back-button:hover,
+#clearA:hover {
+  background-position: right center;
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 28px rgba(255, 105, 180, 0.55);
+}
+
+/* לחיצה */
+button:active,
+.back-button:active,
+#clearA:active {
+  transform: scale(0.97);
+  box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
 }
 
 /* רספונסיביות */
@@ -97,8 +95,9 @@ button:hover {
   }
 
   button,
-  .back-button {
-    padding: 10px 20px;
+  .back-button,
+  #clearA {
+    padding: 12px 30px;
     font-size: 1rem;
   }
 }
@@ -114,7 +113,8 @@ button:hover {
   }
 
   button,
-  .back-button {
+  .back-button,
+  #clearA {
     width: 100%;
     padding: 10px 0;
     font-size: 0.95rem;
