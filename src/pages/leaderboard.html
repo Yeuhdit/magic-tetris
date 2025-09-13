@@ -1,4 +1,4 @@
-<!-- src/pages/leaderboard.html -->
+<!-- //src/pages/leaderboard.html -->
 <!DOCTYPE html>
 <html lang="he">
 <head>
@@ -6,14 +6,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>טבלת שיאים - Magic Blocks</title>
 <link rel="shortcut icon" href="/src/image/favicon.ico" type="image/x-icon">
+<link rel="icon" type="image/x-icon" href="../image/favicon.ico">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script type="module" src="../scripts/leaderboard.js"></script>
+  <script type="module" src="../scripts/leaderboard.js"></script>
 <link rel="stylesheet" href="../style/leaderboard.css">
 <link rel="stylesheet" href="../style.css">
+
 </head>
 <body dir="rtl">
 <h1>טבלת השיאים שלי - Magic Blocks</h1>
-<div class="score-info" id="scoreData"><p>טוען נתונים...</p></div>
+<div class="score-info" id="scoreData">
+<p>טוען נתונים...</p>
+</div>
 <canvas id="scoreChart"></canvas>
 <a id="clearA">נקה שיאים</a>
 <a href="tetris.html" class="back-button">🎮 חזרה למשחק</a>

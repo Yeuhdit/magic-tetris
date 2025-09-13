@@ -1,4 +1,6 @@
-/* src/style/leaderboard.css */
+/* // src/style/leaderboard.css */
+
+/* רקע גוף */
 body {
   background: linear-gradient(135deg, #ffc0cb, #ffb6c1, #fff0f5);
   text-align: center;
@@ -10,6 +12,7 @@ body {
   min-height: 100vh;
 }
 
+/* כותרת ראשית */
 h1 {
   color: #ff3e84;
   text-shadow: 0 0 10px #ffd6e9, 0 0 20px #ffb6c1;
@@ -17,6 +20,7 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* תיבת מידע */
 .score-info {
   font-size: 1.2rem;
   margin: 20px auto;
@@ -30,6 +34,7 @@ h1 {
   box-sizing: border-box;
 }
 
+/* קנבס */
 canvas {
   width: 100%;
   max-width: 700px;
@@ -41,7 +46,10 @@ canvas {
   box-sizing: border-box;
 }
 
-button, .back-button, #clearA {
+/* כפתורים - מודרני וניאון */
+button,
+.back-button,
+#clearA {
   display: inline-block;
   margin: 0.6rem;
   padding: 14px 40px;
@@ -58,26 +66,57 @@ button, .back-button, #clearA {
   cursor: pointer;
 }
 
-button:hover, .back-button:hover, #clearA:hover {
+/* אפקט בהובר */
+button:hover,
+.back-button:hover,
+#clearA:hover {
   background-position: right center;
   transform: translateY(-4px) scale(1.05);
   box-shadow: 0 10px 28px rgba(255, 105, 180, 0.55);
 }
 
-button:active, .back-button:active, #clearA:active {
+/* לחיצה */
+button:active,
+.back-button:active,
+#clearA:active {
   transform: scale(0.97);
   box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
 }
 
 /* רספונסיביות */
 @media (max-width: 768px) {
-  h1 { font-size: 2rem; }
-  .score-info { font-size: 1rem; padding: 12px; }
-  button, .back-button, #clearA { padding: 12px 30px; font-size: 1rem; }
+  h1 {
+    font-size: 2rem;
+  }
+
+  .score-info {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  button,
+  .back-button,
+  #clearA {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
-  h1 { font-size: 1.5rem; }
-  .score-info { font-size: 0.9rem; padding: 10px; }
-  button, .back-button, #clearA { width: 100%; padding: 10px 0; font-size: 0.95rem; }
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .score-info {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  button,
+  .back-button,
+  #clearA {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 0.95rem;
+  }
 }
