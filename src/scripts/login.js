@@ -38,7 +38,7 @@ const confettiContainer = document.getElementById('confetti-container');
 function createConfetti() {
   const colors = ['#ff5da2', '#ffd3e0', '#ffe0f7', '#ff9a9e', '#fbc2eb'];
   const span = document.createElement('span');
-  const size = Math.random() * 10 + 55;
+  const size = Math.random() * 10 + 40;
   const left = Math.random() * 100;
   const delay = Math.random() * 5;
   const duration = Math.random() * 5 + 5;
