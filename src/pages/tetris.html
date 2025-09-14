@@ -2,51 +2,37 @@
 <!DOCTYPE html>
 <html lang="he">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>בלוקים קסומים</title>
-  <link rel="icon" type="image/x-icon" href="../image/favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style/tetris.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>בלוקים קסומים</title>
+<link rel="icon" type="image/x-icon" href="../image/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style/tetris.css">
 <script type="module" src="../scripts/tetris.js"></script>
-
 </head>
 <body>
-  <header>
-    <h1>בלוקים קסומים 🎮</h1>
-  </header>
-
-  <!-- משחק -->
-  <main id="game-area">
-    <div id="game">
-      <canvas id="tetris" width="240" height="400"></canvas>
-    </div>
-
-    <!-- לוח ניקוד -->
-    <section id="hud">
-      <div id="scoreboard">
-        ניקוד: <span id="score">0</span> | שיא: <span id="highscore">0</span>
-      </div>
-      <div id="details">צעדים: <span id="steps">0</span></div>
-      <div id="levelLabel">רמה: בינוני</div>
-    </section>
-
-    <!-- כפתורים -->
-    <section id="controls">
-      <button id="startBtn">▶ התחל משחק חדש</button>
-      <button id="highBtn" onclick="window.location.href='leaderboard.html'">🏆 צפה בשיאים</button>
-      <button id="backBtn">⏮ חזרה לדף הכניסה</button>
-    </section>
-  </main>
-  <!-- פופאפ סוף משחק -->
-  <div class="popup" id="endPopup">
-    <h2 id="popupMessage"></h2>
-    <a onclick="document.getElementById('endPopup').style.display='none'">סגור</a>
-  </div>
-  <!-- אפקט פיצוצים -->
-  <div id="confetti-container"></div>
-<script>
-</script>
-  <!-- <script src="../scripts/tetris.js"></script> -->
+<header>
+<h1>בלוקים קסומים 🎮</h1>
+</header>
+<main id="game-area">
+<div id="game">
+<canvas id="tetris" width="240" height="400"></canvas>
+</div>
+<section id="hud">
+<div id="scoreboard">ניקוד: <span id="score">0</span> | שיא: <span id="highscore">0</span></div>
+<div id="details">צעדים: <span id="steps">0</span></div>
+<div id="levelLabel">רמה: בינוני</div>
+</section>
+<section id="controls">
+  <a id="startBtn" href="#" onclick="startGame()">▶ התחל משחק חדש</a>
+  <a id="highBtn" href="leaderboard.html">🏆 צפה בשיאים</a>
+  <a id="backBtn" href="login.html">⏮ חזרה לדף הכניסה</a>
+</section>
+</main>
+<div class="popup" id="endPopup">
+<h2 id="popupMessage"></h2>
+<a onclick="document.getElementById('endPopup').style.display='none'">סגור</a>
+</div>
+<div id="confetti-container"></div>
 </body>
 </html>

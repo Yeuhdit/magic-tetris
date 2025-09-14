@@ -1,4 +1,4 @@
- //src/scripts/tetris.js
+//src/scripts/tetris.js
 (() => {
   const canvas = document.getElementById('tetris');
   const ctx = canvas.getContext('2d');
@@ -8,7 +8,7 @@
   const startBtn = document.getElementById('startBtn');
   const popup = document.getElementById('endPopup');
   const popupMessage = document.getElementById('popupMessage');
-  const confettiContainer = document.getElementById('confetti-container'); // 🎆
+  const confettiContainer = document.getElementById('confetti-container');
 
   const BLOCK_SIZE = 20, COLS = 12, ROWS = 20;
   const COLORS = [null, '#FF5E5B', '#FFD93D', '#6EFACC', '#FF9CEE', '#FFB347', '#A29BFE', '#7BED9F', '#FF6B81', '#F8EFBA'];
@@ -61,9 +61,9 @@
   function draw(){
     ctx.fillStyle='#222';
     ctx.fillRect(0,0,canvas.width,canvas.height);
-    arena.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)drawBlock(x,y,val);}));
+    arena.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)drawBlock(x,y,val);}));    
     if(currentPiece) {
-      currentPiece.shape.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)drawBlock(currentPiece.pos.x+x,currentPiece.pos.y+y,val);}));
+      currentPiece.shape.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)drawBlock(currentPiece.pos.x+x,currentPiece.pos.y+y,val);}));    
     }
   }
 
@@ -77,21 +77,29 @@
     return false;
   }
 
-  function merge(arena,piece){
-    piece.shape.forEach((row,y)=>row.forEach((val,x)=>{if(val!==0)arena[y+piece.pos.y][x+piece.pos.x]=val;}));
+  // mergePartial ממלא רק תאים פנויים
+  function mergePartial(arena, piece) {
+    for (let y = 0; y < piece.shape.length; y++) {
+      for (let x = 0; x < piece.shape[y].length; x++) {
+        if (piece.shape[y][x] !== 0) {
+          const ax = piece.pos.x + x;
+          const ay = piece.pos.y + y;
+          if (arena[ay] && arena[ay][ax] === 0) {
+            arena[ay][ax] = piece.shape[y][x];
+          }
+        }
+      }
+    }
   }
 
-  // 🎆 פונקציה ליצירת פיצוצים
   function triggerExplosion(rowY) {
     for (let i = 0; i < 25; i++) {
       const particle = document.createElement("span");
       particle.classList.add("particle");
-
       const size = Math.random() * 8 + 4;
       const angle = Math.random() * 2 * Math.PI;
       const distance = Math.random() * 80 + 40;
       const color = COLORS[Math.floor(Math.random() * (COLORS.length-1)) + 1];
-
       particle.style.width = `${size}px`;
       particle.style.height = `${size}px`;
       particle.style.background = color;
@@ -99,9 +107,7 @@
       particle.style.top = `${canvas.offsetTop + rowY*BLOCK_SIZE}px`;
       particle.style.position = "absolute";
       particle.style.borderRadius = "50%";
-
       confettiContainer.appendChild(particle);
-
       particle.animate([
         { transform: "translate(0,0)", opacity: 1 },
         { transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`, opacity: 0 }
@@ -109,7 +115,6 @@
         duration: 1000 + Math.random() * 500,
         easing: "ease-out"
       });
-
       setTimeout(() => particle.remove(), 1500);
     }
   }
@@ -121,7 +126,7 @@
         arena.splice(y,1);
         arena.unshift(new Array(COLS).fill(0));
         rowCount++;
-        triggerExplosion(y); // 🎆 אפקט בכל שורה שנמחקת
+        triggerExplosion(y);
         y++;
       }
     }
@@ -145,28 +150,49 @@
     localStorage.setItem('tetrisGameData',JSON.stringify(gameData));
   }
 
-  function drop(){
+  function drop() {
     currentPiece.pos.y++;
     steps++;
-    stepsElem.textContent=steps;
-    if(collide(arena,currentPiece)){
+    stepsElem.textContent = steps;
+
+    if (collide(arena, currentPiece)) {
       currentPiece.pos.y--;
-      merge(arena,currentPiece);
+      mergePartial(arena, currentPiece); // כאן משתמשים בגרסה החלקית
       sweep();
-      currentPiece=createPiece();
-      if(collide(arena,currentPiece)){
-        gameOver=true;
-        showPopup('Game Over! Score: '+score);
-        if(score>highscore){
-          localStorage.setItem('tetrisHighscore',JSON.stringify(score));
-          highscore=score;
-          highscoreElem.textContent=highscore;
-          showPopup('New High Score! Score: '+score);
+
+      currentPiece = createPiece();
+
+      // בדיקה אם יש לפחות חלק אחד פנוי
+      let anyPartFits = false;
+      for (let y = 0; y < currentPiece.shape.length; y++) {
+        for (let x = 0; x < currentPiece.shape[y].length; x++) {
+          if (currentPiece.shape[y][x] !== 0) {
+            const ax = currentPiece.pos.x + x;
+            const ay = currentPiece.pos.y + y;
+            if (arena[ay] && arena[ay][ax] === 0) {
+              anyPartFits = true;
+              break;
+            }
+          }
         }
-        saveGameData(score,steps,level);
+        if (anyPartFits) break;
+      }
+
+      if (!anyPartFits) {
+        gameOver = true;
+        if (score > highscore) {
+          highscore = score;
+          localStorage.setItem('tetrisHighscore', JSON.stringify(score));
+          highscoreElem.textContent = highscore;
+          showPopup('Game Over! New High Score: ' + score);
+        } else {
+          showPopup('Game Over! Score: ' + score);
+        }
+        saveGameData(score, steps, level);
       }
     }
-    dropCounter=0;
+
+    dropCounter = 0;
   }
 
   function showPopup(message){
